@@ -1,0 +1,35 @@
+[
+    {
+        "name" : "Indah Lestari",
+        "post_image" : "",
+        "email" : "@indahlestari",
+        "post_at" : "3h",
+        "content" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates quo rem repellat eligendi accusamus laborum praesentium tenetur, libero ab aperiam, consequuntur unde impedit inventore architecto! Facere vel molestias sint. Voluptatem.",
+        "replies_count" : 60,
+        "likes_count" : 40,
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCBBgfoO8I5tj-tawrjzeFarrRlxTJeY0K1w&s",
+        "is_like" : true
+    },
+    {
+        "name" : "Mona",
+        "post_image" : "string",
+        "email" : "@monariskaa",
+        "post_at" : "1h",
+        "content" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis sint recusandae harum similique, ipsam eaque inventore saepe. Autem debitis, ducimus id minus distinctio vitae nobis fugit aspernatur soluta est amet velit, repellat, beatae eaque voluptatum impedit veniam at maiores nihil exercitationem molestiae! Maxime maiores eum nam sequi error consequuntur ea, voluptatum ad omnis harum fugit quae reprehenderit odit, eius velit.",
+        "replies_count" : 30,
+        "likes_count" : 20,
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqe-ZPlYAqyeO1vTIPVdt8p_ZnMHTzlWnPuA&s",
+        "is_like" : false
+    },
+    {
+        "name" : "Kristian David",
+        "post_image" : "string",
+        "email" : "@david_kris",
+        "post_at" : "6h",
+        "content" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem voluptatum suscipit repellat unde eos, nesciunt veritatis itaque, deserunt, vel totam labore? Illum labore vitae voluptates. Fuga optio mollitia molestiae veniam iusto commodi, libero corporis cumque. Vel facilis aperiam iste commodi.",
+        "replies_count" : 25,
+        "likes_count" : 11,
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROQKGi9RLSVPjVwzSjr9B2SqJ0c2HFnEhyGg&s",
+        "is_like" : true
+    }
+]

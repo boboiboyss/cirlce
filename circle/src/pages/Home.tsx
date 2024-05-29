@@ -1,7 +1,6 @@
 import { SideBarLeft } from "../components/SideBarLeft"
 import { SideBarRight } from "../components/SideBarRight"
-import DetailPostPage from "./DetailPostPage"
-// import { Thread } from "../components/Thread"
+import Thread from "../components/Thread"
 
 export default function Home () {
     return (
@@ -11,8 +10,7 @@ export default function Home () {
                 display : 'flex', 
                 flexDirection : 'row'}}>
             <SideBarLeft />
-            {/* <Thread /> */}
-            <DetailPostPage />
+            <Thread />
             <SideBarRight />
         </div>
     )
