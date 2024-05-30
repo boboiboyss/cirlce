@@ -2,38 +2,39 @@ import {RiHome7Fill, RiUserSearchLine} from 'react-icons/ri'
 import {CiLogout } from "react-icons/ci";
 import {FaRegHeart} from 'react-icons/fa'
 import { CgProfile } from "react-icons/cg";
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
 export function SideBarLeft () {
     return(
-        <div style={{width:'300px', padding : '10px 30px 30px 30px', height : '100vh', display: 'flex', flexDirection: 'column'}}>
-            <div style={{display:'flex',flexDirection:'column'}}>
-                <p style={{fontSize:'40px', color:'#04A51E', fontWeight:'600', marginBottom : '5px'}}>circle</p>
-                <div style={{display: 'flex', flexDirection:'row', marginBottom:'20px', alignItems: 'center'}}>
+        <Flex width={'300px'} p={'10px 30px 30px 30px'} height={'100vh'} flexDirection={'column'}>
+            <Flex flexDirection={'column'}>
+                <Text fontSize={'40px'} color={'#04A51E'} fontWeight={'600'} mb={'5px'}>circle</Text>
+                <Flex alignItems={'center'} mb={'20px'}>
                     <RiHome7Fill style={{fontSize: '25px', marginRight : '8px'}}/>
-                    <p>Home</p>
-                </div>
-                <div style={{display: 'flex', flexDirection:'row', marginBottom:'20px', alignItems: 'center'}}>
+                    <Text>Home</Text>
+                </Flex>
+                <Flex alignItems={'center'} mb={'20px'}>
                     <RiUserSearchLine style={{fontSize: '25px', marginRight : '8px'}} />
-                    <p>Search</p>
-                </div>
-                <div style={{display: 'flex', flexDirection:'row',marginBottom:'20px', alignItems: 'center'}}>
+                    <Text>Search</Text>
+                </Flex>
+                <Flex alignItems={'center'} mb={'20px'}>
                     <FaRegHeart style={{fontSize: '25px', marginRight : '8px'}}/>
-                    <p>Follows</p>
-                </div>
-                <div style={{display: 'flex', flexDirection:'row', marginBottom:'20px', alignItems: 'center'}}>
+                    <Text>Follows</Text>
+                </Flex>
+                <Flex alignItems={'center'} mb={'20px'}>
                     <CgProfile style={{fontSize: '25px', marginRight : '8px'}} />
-                    <p>Profile</p>
-                </div>
-                <div>
-                    <button style={{width:'100%', backgroundColor:'#04A51E',color:'white',borderRadius:'40px', padding : '5px'}}>Create Post</button>
-                </div>
-            </div>
+                    <Text>Profile</Text>
+                </Flex>
+                <Box>
+                    <Button style={{width:'100%', backgroundColor:'#04A51E',color:'white',borderRadius:'40px', padding : '5px'}}>Create Post</Button>
+                </Box>
+            </Flex>
 
-            <div style={{ display: 'flex', flexDirection : 'row', alignItems : 'center', marginTop : 'auto'}}>
+            <Flex alignItems={'center'} mt={'auto'}>
                 <CiLogout style={{fontSize: '25px', marginRight : '5px'}} />
                 <p>Logout</p>
-            </div>
-        </div>
+            </Flex>
+        </Flex>
     )
 }
 

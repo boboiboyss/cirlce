@@ -1,15 +1,17 @@
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram  } from "react-icons/fa";
-export default function Developed () {
+import {Flex, Text} from '@chakra-ui/react'
+
+export default function Developed () { 
     return (
-        <div style={{display : 'flex', flexDirection : 'column', padding : '15px', backgroundColor : '#0F1010', borderRadius : '8px', marginBottom : '10px'}}>
-            <div style={{display : 'flex', alignItems: 'center'}}>
-                <p style={{fontSize : '13px', marginRight : '5px'}}>Developed by Boy Simbolon • </p>
+        <Flex flexDirection={'column'} p={3} backgroundColor={'#0F1010'} borderRadius={'8px'} mb={'10px'}>
+            <Flex alignItems={'center'} fontSize={'15px'}>
+                <Text style={{fontSize : '13px', marginRight : '5px'}}>Developed by Boy Simbolon • </Text>
                 <FaGithub style={{marginRight : '8px'}}/>
                 <FaLinkedin style={{marginRight : '8px'}}/>
                 <FaFacebook style={{marginRight : '8px'}}/>
                 <FaInstagram style={{marginRight : '8px'}} />
-            </div>
-            <small style={{color : 'grey'}}>Powered by DumbWays Indonesia • #1Coding Bootcamp</small>
-        </div>  
+            </Flex>
+            <Text color={'grey'} fontSize={'14px'}>Powered by DumbWays Indonesia • #1Coding Bootcamp</Text>
+        </Flex>  
     )
 }
