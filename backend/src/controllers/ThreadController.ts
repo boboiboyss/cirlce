@@ -4,7 +4,7 @@ import ThreadService from "../services/ThreadService";
 async function find(req : Request, res : Response) {
     try {
         const threads = await ThreadService.find();
-        return res.json(threads)
+        return res.status(200).json(threads)
     } catch (error) {
         return error
     }
@@ -13,15 +13,9 @@ async function find(req : Request, res : Response) {
 async function findOne (req : Request, res : Response) {
     try {
         const {id} = req.params;
-        // const thread = await ThreadService.findOne({
-        //     id : +id
-        // })
-
-        // if(!thread) return res.status(404).json('Data not found!');
-
-        const selectedThread = await ThreadService.findOne({
-         id : Number[id]
-        })
+    
+        const selectedThread = await ThreadService.findOne(+id)
+        if(!selectedThread) return res.status(404).json({message : 'Data not found!'});
 
         res.status(200).json(selectedThread)
 
@@ -34,12 +28,20 @@ async function findOne (req : Request, res : Response) {
 
     async function create (req : Request, res : Response) {
         try{
-            const createThread = await ThreadService.create(req.body)
+
+            console.log('req', req.file)
+
+            const body = {
+                ...req.body,
+                image : req.file.path
+            }
+            const createThread = await ThreadService.create(body)
             res.status(200).json({
                 message : 'Thread berhasil ditambahkan',
                 data : createThread
             })
         } catch (error) {
+            console.log(error)
             res.status(500).json({
                 message : error
             })
@@ -49,9 +51,13 @@ async function findOne (req : Request, res : Response) {
     async function update (req : Request, res : Response)  {
             try {
                 const {id} = req.params
-                const updateThread = await ThreadService.update(+id, req.body)
 
-                res.json({
+                const thread = await ThreadService.findOne(+id)
+                if(!thread) return res.status(404).json({message : 'Thread not found!'})
+
+
+                const updateThread = await ThreadService.update(+id, req.body)
+                res.status(200).json({
                     message : 'Thread berhasil diupdate',
                     data : updateThread
                 })
@@ -66,6 +72,9 @@ async function findOne (req : Request, res : Response) {
     async function remove (req : Request, res : Response) {
             try {
                 const {id} = req.params;
+                const thread = await ThreadService.findOne(+id)
+                if(!thread) return res.status(404).json({message : "Thread not found!"})
+
                 const deletedThread = await ThreadService.remove(+id)
                 
                  res.status(200).json({

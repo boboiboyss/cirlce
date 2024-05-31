@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client"
-import { CreateThreadDTO, UpdateThreadDTO } from "../dto/thread/CreateThreadDTO";
+import { CreateThreadDTO, UpdateThreadDTO } from "../dto/CreateThreadDTO";
+import { createThreadSchema } from "../validators/thread";
+import {v2 as cloudinary} from 'cloudinary'
 
     const prisma = new PrismaClient();
 
@@ -12,11 +14,14 @@ import { CreateThreadDTO, UpdateThreadDTO } from "../dto/thread/CreateThreadDTO"
 
     }
 
-    async function findOne({id} : {id:number}){
+    async function findOne(id:number){
         try {
-            return await prisma.thread.findFirst({
+            const thread =  await prisma.thread.findFirst({
                 where : {id}
             });
+
+            if(!thread) return null;
+                return thread
             } catch(error) {
               return error
             }
@@ -24,15 +29,32 @@ import { CreateThreadDTO, UpdateThreadDTO } from "../dto/thread/CreateThreadDTO"
         }
 
     async function create(dto : CreateThreadDTO) {
-        return await prisma.thread.create({
-        data: {...dto}
-        } 
-    )}
+        try{
+    
+            const validate = createThreadSchema.validate(dto)
+            if(validate.error) return validate.error.details[0] 
+
+            cloudinary.config({
+                cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
+                api_key : process.env.CLOUDINARY_API_KEY,
+                api_secret : process.env.CLOUDINARY_API_SECRET
+            });
+
+            const upload = await cloudinary.uploader.upload(dto.image, {upload_preset : "imagecircle"})
+            return await prisma.thread.create({
+                data: {...dto, image : upload.secure_url}
+            })
+        } catch(error) {
+            return error
+        }
+        
+    }
 
     async function update(id : number, dto : UpdateThreadDTO) {
         try{
             const thread = await prisma.thread.findFirst({where : {id : +id}})
-    
+            if(!thread) return null
+
             if(dto.content) {
                 thread.content = dto.content
             }

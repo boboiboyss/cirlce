@@ -2,17 +2,21 @@ import { PrismaClient } from '@prisma/client';
 import express, {Request, Response} from 'express'
 import cors from 'cors'
 import ThreadController from './controllers/ThreadController';
-import { CreateThreadDTO } from './dto/thread/CreateThreadDTO';
+import { CreateThreadDTO } from './dto/CreateThreadDTO';
+import AuthController from './controllers/AuthController';
+import dotenv from 'dotenv'
+import { upload } from './middlewares/UploadFile';
+dotenv.config();
 
 const app = express();
 const port = 8000;
 const router = express.Router();
 const router2 = express.Router();
-const prisma = new PrismaClient();
 
         
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static('uploads'));
 app.use("/api/v1", router);
 app.use("/api/v2", router2);
 
@@ -44,9 +48,14 @@ router.get("/", (req : Request, res : Response) => {
     
 router.get("/threads", ThreadController.find)
 router.get("/threads/:id", ThreadController.findOne)
-router.post("/threads/", ThreadController.create)
+router.post("/threads", upload.single("image"), ThreadController.create)
 router.patch("/threads/:id", ThreadController.update)
 router.delete("/threads/:id", ThreadController.remove)
+
+router.post("/auth/login", AuthController.login)
+router.post("/auth/register", AuthController.register)
+
+
  
 app.listen(port, () => {
     console.log(`Server berjalan di port ${port}`)
