@@ -9,3 +9,12 @@ export type RegisterDTO = {
     email : string;
     password : string;
 }
+
+export type UserDTO = {
+    id: number;
+    username: string;
+    fullName: string;
+    email: string;
+    photoProfile: string;
+    bio: string;
+}

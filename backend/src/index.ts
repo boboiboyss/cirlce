@@ -4,8 +4,10 @@ import cors from 'cors'
 import ThreadController from './controllers/ThreadController';
 import { CreateThreadDTO } from './dto/CreateThreadDTO';
 import AuthController from './controllers/AuthController';
+import UserController from './controllers/UserController'
 import dotenv from 'dotenv'
 import { upload } from './middlewares/UploadFile';
+import { Authenticate } from './middlewares/Authenticate';
 dotenv.config();
 
 const app = express();
@@ -46,15 +48,16 @@ router.get("/", (req : Request, res : Response) => {
 
 
     
-router.get("/threads", ThreadController.find)
-router.get("/threads/:id", ThreadController.findOne)
-router.post("/threads", upload.single("image"), ThreadController.create)
-router.patch("/threads/:id", ThreadController.update)
-router.delete("/threads/:id", ThreadController.remove)
+router.get("/threads", Authenticate, ThreadController.find)
+router.get("/threads/:id", Authenticate, ThreadController.findOne)
+router.post("/threads", Authenticate, upload.single("image"), ThreadController.create)
+router.patch("/threads/:id", Authenticate, upload.single("image"), ThreadController.update)
+router.delete("/threads/:id", Authenticate, ThreadController.remove)
 
 router.post("/auth/login", AuthController.login)
 router.post("/auth/register", AuthController.register)
 
+router.get("/users", Authenticate, UserController.findOne)
 
  
 app.listen(port, () => {

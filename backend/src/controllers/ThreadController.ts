@@ -6,7 +6,9 @@ async function find(req : Request, res : Response) {
         const threads = await ThreadService.find();
         return res.status(200).json(threads)
     } catch (error) {
-        return error
+        res.status(500).json({
+            message : error
+        })
     }
 }
 
@@ -29,14 +31,12 @@ async function findOne (req : Request, res : Response) {
     async function create (req : Request, res : Response) {
         try{
 
-            console.log('req', req.file)
-
             const body = {
                 ...req.body,
-                image : req.file.path
+                image : req.file? req.file.path : ''
             }
             const createThread = await ThreadService.create(body)
-            res.status(200).json({
+            res.status(201).json({
                 message : 'Thread berhasil ditambahkan',
                 data : createThread
             })

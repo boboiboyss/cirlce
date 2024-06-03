@@ -9,7 +9,7 @@ import {v2 as cloudinary} from 'cloudinary'
     try {
           return await prisma.thread.findMany()
         } catch(error) {
-          return error
+          throw new String(error)
         }
 
     }
@@ -20,19 +20,20 @@ import {v2 as cloudinary} from 'cloudinary'
                 where : {id}
             });
 
-            if(!thread) return null;
+            if(!thread) throw new String('Thread not found!')
                 return thread
             } catch(error) {
-              return error
+                throw new String(error)
             }
     
         }
 
     async function create(dto : CreateThreadDTO) {
         try{
-    
             const validate = createThreadSchema.validate(dto)
-            if(validate.error) return validate.error.details[0] 
+            if(validate.error) {
+               throw new String(validate.error.message) 
+            }
 
             cloudinary.config({
                 cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
@@ -45,15 +46,15 @@ import {v2 as cloudinary} from 'cloudinary'
                 data: {...dto, image : upload.secure_url}
             })
         } catch(error) {
-            return error
+            throw new String(error)
         }
         
     }
 
     async function update(id : number, dto : UpdateThreadDTO) {
         try{
-            const thread = await prisma.thread.findFirst({where : {id : +id}})
-            if(!thread) return null
+            const thread = await prisma.thread.findFirst({where : {id}})
+            if(!thread) throw new String('Thread not found!')
 
             if(dto.content) {
                 thread.content = dto.content
@@ -64,23 +65,23 @@ import {v2 as cloudinary} from 'cloudinary'
             }
     
             return await prisma.thread.update({
-                where : {id : +id},
+                where : {id},
                 data : {...thread}
             })
     
         } catch(error) {
-            return error
+            throw new String(error)
         }
     }
 
-        async function remove(id:number) {
-            try {
-                return await prisma.thread.delete({where : {id : +id}})
+    async function remove(id:number) {
+        try {
+            return await prisma.thread.delete({where : {id}})
 
             } catch (error) {
-                return error
+                throw new String(error)
             }
-        }
+    }
 
 
 export default {find, findOne, create, update, remove}

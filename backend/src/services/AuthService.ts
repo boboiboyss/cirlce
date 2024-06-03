@@ -12,15 +12,14 @@ import jwt from 'jsonwebtoken'
             const validate = registerSchema.validate(dto)
             const salt = 10;
             const hashedPassword = await bcrypt.hash(dto.password, salt)
-
             dto.password = hashedPassword
-            if(validate.error) return validate.error.details[0] 
 
+            if(validate.error) throw new String(validate.error.message)
             return await prisma.user.create({
                 data: {...dto}
             })
         } catch(error) {
-            return error
+            throw new String(error)
         }
         
     }
@@ -28,9 +27,8 @@ import jwt from 'jsonwebtoken'
     async function login(dto : LoginDTO) {
         try{
             const validate = loginSchema.validate(dto)
-
-            if(validate.error) return validate.error.details[0] 
-
+           if(validate.error) throw new String(validate.error.message)
+            
             const user = await prisma.user.findUnique({
                 where : {
                     email : dto.email
@@ -38,7 +36,7 @@ import jwt from 'jsonwebtoken'
             })
 
             if(!user) {
-                throw new Error('User not found!');
+                throw new String('User not found!');
             }
 
             const isValidPassowrd = await bcrypt.compare(dto.password, user.password)
@@ -52,7 +50,7 @@ import jwt from 'jsonwebtoken'
 
             return {token, user}
         } catch(error) {
-            return error
+            throw new String(error)
         }
         
     }
