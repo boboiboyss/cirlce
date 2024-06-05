@@ -1,18 +1,18 @@
-import DetailPostPage from './pages/DetailPostPage'
-import Home from './pages/Home'
+import DetailPostPage from '@/pages/DetailPostPage'
+import Home from '@/pages/Home'
 import {Route, Routes} from 'react-router-dom'
-import SignIn from './pages/auth/SignIn'
-import SignUp from './pages/auth/SignUp'
+import SignIn from '@/pages/auth/SignIn'
+import SignUp from '@/pages/auth/SignUp'
 
 function App() {
   return (
     <>
     <Routes>
       <Route path='/' element={<Home />} />
-      <Route path='/detail-post/:id' element = {<DetailPostPage />} />
-      <Route path='/sign-in' element = {<SignIn />} />
-      <Route path='/sign-up' element = {<SignUp />} />
-
+      <Route path='/post/:id' element = {<DetailPostPage />} />
+      <Route path='/auth/login' element = {<SignIn />} />
+      <Route path='/auth/register' element = {<SignUp />} />
+'
       {/* <Route path='/coba' element = {<Coba />} /> */}
 
     </Routes>

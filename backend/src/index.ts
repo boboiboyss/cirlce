@@ -51,7 +51,7 @@ router.get("/", (req : Request, res : Response) => {
 router.get("/threads", Authenticate, ThreadController.find)
 router.get("/threads/:id", Authenticate, ThreadController.findOne)
 router.post("/threads", Authenticate, upload.single("image"), ThreadController.create)
-router.patch("/threads/:id", Authenticate, upload.single("image"), ThreadController.update)
+router.patch("/threads/:id", Authenticate, ThreadController.update)
 router.delete("/threads/:id", Authenticate, ThreadController.remove)
 
 router.post("/auth/login", AuthController.login)
@@ -59,7 +59,6 @@ router.post("/auth/register", AuthController.register)
 
 router.get("/users", Authenticate, UserController.findOne)
 
- 
 app.listen(port, () => {
     console.log(`Server berjalan di port ${port}`)
 } )

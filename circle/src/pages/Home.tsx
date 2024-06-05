@@ -5,10 +5,10 @@ import Thread from "../components/Thread"
 export default function Home () {
     return (
         <div style={{
-                backgroundColor: 'black', 
                 color : 'white', 
                 display : 'flex', 
-                flexDirection : 'row'}}>
+                flexDirection : 'row',
+                background: 'black'}}>
             <SideBarLeft />
             <Thread />
             <SideBarRight />
