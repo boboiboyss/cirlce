@@ -56,6 +56,7 @@ router.delete("/threads/:id", Authenticate, ThreadController.remove)
 
 router.post("/auth/login", AuthController.login)
 router.post("/auth/register", AuthController.register)
+router.post("/auth/check", Authenticate, AuthController.check)
 
 router.get("/users", Authenticate, UserController.findOne)
 

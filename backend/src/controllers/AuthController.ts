@@ -26,7 +26,17 @@ import AuthService from "../services/AuthService";
             })
         }
     }
+
+    async function check (req : Request, res : Response) {
+        try{
+            res.json(res.locals.user)
+        } catch (error) {
+            res.status(500).json({
+                message : error.message
+            })
+        }
+    }
  
 
 
-export default {register, login}
+export default {register, login, check}

@@ -55,4 +55,5 @@ import jwt from 'jsonwebtoken'
         
     }
 
+
 export default {register, login}
