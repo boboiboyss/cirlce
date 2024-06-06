@@ -1,7 +1,9 @@
 import { api } from "@/libs/api";
+import { SET_USER } from "@/redux/slices/AuthSlices";
 import { Box, Button, Input, BoxProps, Text} from "@chakra-ui/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IPropsLogin extends BoxProps {}
 
@@ -25,12 +27,22 @@ export default function SignInForm (props: IPropsLogin) {
        })
     }
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
    async function handleSubmit(){
         try {
             const respon = await api.post("/auth/login", form);
-            console.log(respon)
+            const {token, user} = respon.data;
 
-            localStorage.setItem("token", respon.data.token)
+            if(token) {
+                localStorage.setItem("token", respon.data.token)
+            }
+            if(user) {
+                dispatch(SET_USER(user))
+                navigate('/')
+            } 
+                
         } catch (error) {
             console.log(error)
         }
