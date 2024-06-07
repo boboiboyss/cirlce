@@ -9,3 +9,9 @@ export interface ICard {
     image : string,
     is_like : boolean
 }  
+
+
+export type LoginForm = {
+    email : string,
+    password : string
+}

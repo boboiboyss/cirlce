@@ -8,11 +8,13 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './redux/store/store'
 import { SET_USER } from './redux/slices/AuthSlices'
+import { useToast } from '@chakra-ui/react'
 
 function App() {
   const [isLoading, setisLoading] = useState<boolean>(true)
   const dispatch = useDispatch()
   const currentUser = useSelector((state: RootState) => state.auth.user);
+  const toast = useToast()
 
   const PrivateRoute = () => {
     // if(isLoading) {
@@ -34,6 +36,12 @@ function App() {
     } catch (error) {
       localStorage.removeItem("token");
       setisLoading(false);
+      toast({
+        title : 'User not authenticated',
+        status : 'error',
+        duration : 3000,
+        isClosable : true
+      })
     }
   }
 
