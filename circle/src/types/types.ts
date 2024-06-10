@@ -15,3 +15,14 @@ export type LoginForm = {
     email : string,
     password : string
 }
+
+export type Threads = {
+    content : string;
+    image : string;
+    createdAt : Date;
+}
+
+export type CreateThreadDTO = {
+    content : string,
+    image : FileList
+}
