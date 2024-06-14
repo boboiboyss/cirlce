@@ -23,7 +23,7 @@ export default function ThreadCard ({thread} : ThreadCardProps) {
                 </Flex>
                 <Box>
                     <Text  style={{fontSize : '13px'}}>{thread.content}</Text>
-                    <Image src={thread.image} height={'100px'} width={'100px'} />
+                    <Image src={thread.image} height={'200px'} width={'250px'} />
                 </Box>
                 <Flex mt={'10px'}>
                     <Flex alignItems={'center'}>
