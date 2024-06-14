@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import ThreadService from "../services/ThreadService";
+import { UserDTO } from "../dto/CreateAuthDTO";
 
 async function find(req : Request, res : Response) {
     try {
@@ -30,12 +31,12 @@ async function findOne (req : Request, res : Response) {
 
     async function create (req : Request, res : Response) {
         try{
-
+            const user = res.locals.user as UserDTO
             const body = {
                 ...req.body,
                 image : req.file? req.file.path : ''
             }
-            const createThread = await ThreadService.create(body)
+            const createThread = await ThreadService.create(body, user.id)
             res.status(201).json({
                 message : 'Thread berhasil ditambahkan',
                 data : createThread

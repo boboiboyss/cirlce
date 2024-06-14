@@ -17,4 +17,6 @@ export type UserDTO = {
     email: string;
     photoProfile: string;
     bio: string;
+    createdAt : Date;
+    updatedAt : Date;
 }

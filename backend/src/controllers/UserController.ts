@@ -3,11 +3,10 @@ import UserService from "../services/UserService";
 
 async function findOne (req : Request, res : Response) {
     try {
-        const user = res.locals.user
-        const userFollowed = await UserService.followedUser(user)
-        // if(!userFollowed) return res.status(404).json({message : 'Data not found!'});
-
-        res.status(200).json(userFollowed)
+        const search = req.query.search as string;
+        const users = await UserService.find(search)
+      
+        res.status(200).json(users)
 
       } catch(error) {
         res.status(500).json({

@@ -7,7 +7,17 @@ import {v2 as cloudinary} from 'cloudinary'
 
     async function find(){
     try {
-          return await prisma.thread.findMany()
+          return await prisma.thread.findMany({
+            include : {
+                user : {
+                    select : {
+                        email : true,
+                        fullName : true,
+                        photoProfile : true
+                    }
+                }
+            }
+          })
         } catch(error) {
           throw new String(error)
         }
@@ -28,7 +38,7 @@ import {v2 as cloudinary} from 'cloudinary'
     
         }
 
-    async function create(dto : CreateThreadDTO) {
+    async function create(dto : CreateThreadDTO, userId : number) {
         try{
             const validate = createThreadSchema.validate(dto)
             if(validate.error) {
@@ -43,7 +53,7 @@ import {v2 as cloudinary} from 'cloudinary'
 
             const upload = await cloudinary.uploader.upload(dto.image, {upload_preset : "imagecircle"})
             return await prisma.thread.create({
-                data: {...dto, image : upload.secure_url}
+                data: {...dto, userId, image : upload.secure_url}
             })
         } catch(error) {
             throw new String(error)

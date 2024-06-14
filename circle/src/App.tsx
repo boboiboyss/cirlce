@@ -1,14 +1,15 @@
 import DetailPostPage from '@/pages/DetailPostPage'
 import Home from '@/pages/Home'
-import {Navigate, Outlet, Route, Routes} from 'react-router-dom'
 import SignIn from '@/pages/auth/SignIn'
 import SignUp from '@/pages/auth/SignUp'
-import { api } from './libs/api'
+import { useToast } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from './redux/store/store'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { api } from './libs/api'
+import SearchPage from './pages/Search'
 import { SET_USER } from './redux/slices/AuthSlices'
-import { useToast } from '@chakra-ui/react'
+import { RootState } from './redux/store/store'
 
 function App() {
   const [isLoading, setisLoading] = useState<boolean>(true)
@@ -61,6 +62,8 @@ function App() {
       <Route path='/post/:id' element = {<DetailPostPage />} />
       <Route path='/auth/login' element = {<SignIn />} />
       <Route path='/auth/register' element = {<SignUp />} />
+      <Route path='/search' element={<SearchPage />} />
+
     </Routes>
     </>
   )

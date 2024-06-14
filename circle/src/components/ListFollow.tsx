@@ -5,12 +5,13 @@ import {Link } from 'react-router-dom'
 interface PropsListFollow {
     image : string,
     nama : string,
-    email : string
+    email : string,
+    bio? : string
 
 }
 
 export default function ListFollow (props : PropsListFollow) {
-    const {image, nama, email} = props;
+    const {image, nama, email, bio} = props;
 
     const [isFollow, setIsFollow ] = useState<boolean>(false)
 
@@ -22,6 +23,7 @@ export default function ListFollow (props : PropsListFollow) {
                     <Flex flexDirection={'column'} ml={'10px'}>
                         <Text fontSize={'12px'}>{nama}</Text>
                         <Text fontSize={'13px'} color={'grey'}>{email}</Text>
+                        <Text fontSize={'13px'} color={'grey'}>{bio? bio : null}</Text>
                     </Flex>
                 </Flex>
                 <Box onClick={() => setIsFollow(!isFollow)}>
