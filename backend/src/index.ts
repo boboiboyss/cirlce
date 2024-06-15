@@ -11,7 +11,7 @@ import { Authenticate } from './middlewares/Authenticate';
 dotenv.config();
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 const router = express.Router();
 const router2 = express.Router();
 

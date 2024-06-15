@@ -6,3 +6,7 @@ tmp/
 temp/
 
 uploads
+
+.env
+
+dist
