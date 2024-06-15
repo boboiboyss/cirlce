@@ -18,9 +18,7 @@ export default function SearchPage() {
     async function getdata(){
       try {
         const response = await api.get(`/users?search=${debounceSearch}`);
-        console.log('hasil response', response);
         setSearchData(response.data);
-        console.log(searchData)
       } catch (error) {
         console.log(error)
       }
