@@ -18,10 +18,10 @@ function App() {
   const toast = useToast()
 
   const PrivateRoute = () => {
-    // if(isLoading) {
+    if(!isLoading) {
       if(currentUser.email) return <Outlet />;
       return <Navigate to={"/auth/login"} />
-    // }
+    }
   }
 
   async function AuthCheck() {
