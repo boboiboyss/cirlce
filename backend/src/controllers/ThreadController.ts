@@ -30,12 +30,24 @@ async function findOne (req : Request, res : Response) {
     }
 
     async function create (req : Request, res : Response) {
+         /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "multipart/form-data": {
+                    schema: {
+                        $ref: "#/components/schemas/CreateThreadDTO"
+                    }  
+                }
+            }
+        } 
+    */
         try{
             const user = res.locals.user as UserDTO
             const body = {
                 ...req.body,
                 image : req.file? req.file.path : ''
             }
+
             const createThread = await ThreadService.create(body, user.id)
             res.status(201).json({
                 message : 'Thread berhasil ditambahkan',

@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client';
 import express, {Request, Response} from 'express'
 import cors from 'cors'
 import ThreadController from './controllers/ThreadController';
-import { CreateThreadDTO } from './dto/CreateThreadDTO';
 import AuthController from './controllers/AuthController';
 import UserController from './controllers/UserController'
 import dotenv from 'dotenv'
 import { upload } from './middlewares/UploadFile';
 import { Authenticate } from './middlewares/Authenticate';
+import swaggerUi from 'swagger-ui-express'
+import swaggerDoc from '../swagger/swagger-output.json'
 dotenv.config();
 
 const app = express();
@@ -21,7 +21,12 @@ app.use(express.json());
 app.use("/uploads", express.static('uploads'));
 app.use("/api/v1", router);
 app.use("/api/v2", router2);
-
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc, {
+    explorer : true,
+    swaggerOptions : {
+        persistAuthorization : true,
+    }
+}))
 
 app.get("/", (req: Request, res: Response) => {
     res.json([

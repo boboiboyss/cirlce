@@ -2,6 +2,17 @@ import { Request, Response } from "express";
 import AuthService from "../services/AuthService";
 
     async function register (req : Request, res : Response) {
+        /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/RegisterDTO"
+                    }  
+                }
+            }
+        } 
+    */
         try{
             const user = await AuthService.register(req.body)
             res.status(200).json({
@@ -17,6 +28,17 @@ import AuthService from "../services/AuthService";
     }
 
     async function login (req : Request, res : Response) {
+        /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/LoginDTO"
+                    }  
+                }
+            }
+        } 
+    */
         try{
             const user = await AuthService.login(req.body)
             res.json(user)
