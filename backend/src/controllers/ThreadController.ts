@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
 import ThreadService from "../services/ThreadService";
 import { UserDTO } from "../dto/CreateAuthDTO";
+import { redisClient } from "../libs/redis";
 
 async function find(req : Request, res : Response) {
     try {
         const threads = await ThreadService.find();
+        await redisClient.set("THREADS_DATA", JSON.stringify(threads), {
+            EX : 600,
+        })
         return res.status(200).json(threads)
     } catch (error) {
         res.status(500).json({
@@ -47,6 +51,8 @@ async function findOne (req : Request, res : Response) {
                 ...req.body,
                 image : req.file? req.file.path : ''
             }
+
+            await redisClient.del("THREADS_DATA")
 
             const createThread = await ThreadService.create(body, user.id)
             res.status(201).json({

@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express'
+import express, {NextFunction, Request, Response} from 'express'
 import cors from 'cors'
 import ThreadController from './controllers/ThreadController';
 import AuthController from './controllers/AuthController';
@@ -8,6 +8,8 @@ import { upload } from './middlewares/UploadFile';
 import { Authenticate } from './middlewares/Authenticate';
 import swaggerUi from 'swagger-ui-express'
 import swaggerDoc from '../swagger/swagger-output.json'
+import { initializeRedisClient, redisClient } from './libs/redis';
+import { RedisCheck } from './middlewares/Redis';
 dotenv.config();
 
 const app = express();
@@ -25,6 +27,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc, {
     explorer : true,
     swaggerOptions : {
         persistAuthorization : true,
+        displayRequestDuration : true
     }
 }))
 
@@ -53,7 +56,7 @@ router.get("/", (req : Request, res : Response) => {
 
 
     
-router.get("/threads", Authenticate, ThreadController.find)
+router.get("/threads", Authenticate, RedisCheck, ThreadController.find)
 router.get("/threads/:id", Authenticate, ThreadController.findOne)
 router.post("/threads", Authenticate, upload.single("image"), ThreadController.create)
 router.patch("/threads/:id", Authenticate, ThreadController.update)
@@ -65,7 +68,10 @@ router.post("/auth/check", Authenticate, AuthController.check)
 
 router.get("/users", Authenticate, UserController.findOne)
 
-app.listen(port, () => {
-    console.log(`Server berjalan di port ${port}`)
-} )
+initializeRedisClient().then( ()=> {
+    app.listen(port, () => {
+        console.log(`Server berjalan di port ${port}`);
+    })
+});
+
 
