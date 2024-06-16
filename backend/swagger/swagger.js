@@ -5,7 +5,7 @@ const doc = {
     title: 'Circle App API Docs',
     description: 'Welcome to my API Docs'
   },
-  host: 'localhost:8000',
+  host: 'https://cirlce-production.up.railway.app',
   components: {
     "@schemas": {
       CreateThreadDTO: {
