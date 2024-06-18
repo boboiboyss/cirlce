@@ -12,22 +12,21 @@ export default function SignInForm (props: IPropsLogin) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Box width={'400px'} {...props} display={'flex'} flexDirection={'column'} gap={'10px'}>
-                <Text color={'white'} fontWeight={'500'}>Email</Text>
                 <Input
                     type="email" 
-                    placeholder="Email" 
+                    placeholder="Email *" 
                     color={'white'}
                     {...register('email')}
                 />
-                <Text color={'#ff0000'}>{errors.email?.message}</Text>
-                <Text color={'white'} fontWeight={'500'}>Password</Text>
+                {errors.email && <Text color={'#ff0000'}>{errors.email.message}</Text>}
                 <Input 
-                    placeholder="Password" 
+                    placeholder="Password *" 
                     type="password" 
                     color={'white'}
                     {...register('password')}
                 />
-                <Text color={'#ff0000'}>{errors.password?.message}</Text>
+                {errors.password && <Text color={'#ff0000'}>{errors.password.message}</Text>}
+                <Text textAlign={'right'} color={'white'}>Forgot Password?</Text>
                 <Button
                     type='submit'
                     backgroundColor={'#04A51E'} 
@@ -37,7 +36,7 @@ export default function SignInForm (props: IPropsLogin) {
                 </Button>
                 <Box display={'flex'}>
                     <Text color={'white'} mr={'10px'}>Don't have an account yet?</Text>
-                    <Link to={'/auth/register'} style={{color : '#1e0fbe'}}>Create Account</Link>
+                    <Link to={'/auth/register'} style={{color : '#04A51E'}}>Create Account</Link>
                 </Box>
             </Box>
         </form>

@@ -1,7 +1,10 @@
 import ListFollow from "@/components/ListFollow";
+import { SideBarLeft } from "@/components/SideBarLeft";
+import { SideBarRight } from "@/components/SideBarRight";
+import Thread from "@/components/Thread";
 import { UserSearch } from "@/features/search/types/search";
 import { api } from "@/libs/api";
-import { Box, Input } from "@chakra-ui/react";
+import {Box, Input, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDebounce } from 'use-debounce';
 
@@ -29,17 +32,26 @@ export default function SearchPage() {
     }, [debounceSearch])
 
     return (
-        <Box display={'flex'} alignItems={'center'}>
-            <Box width={'500px'} border={'1px solid grey'} padding={'10px'}>
-            <Input placeholder={'Search'} border={'transparent'} fontStyle={'italic'} onChange={handleChange} />
+        <Box color={'white'} display={'flex'} flexDirection={'row'} bg={'black'} height={'100vh'}>
+        <SideBarLeft />
+        <Thread>
+        <Box p={'20px'}>
+            <Input placeholder={'Search'} border={'transparent'} onChange={handleChange} borderRadius={'20px'} bg={'#1C1C1C'} mb={'10px'}/>
             {
-                searchData.map((user) => {
+                searchData.length > 0 ? searchData?.map((user) => {
                     return (
-                        <ListFollow image={user.photoProfile} nama={user.fullName} email={user.email} bio={user.bio} />
+                        <ListFollow image={user.photoProfile} nama={user.fullName} email={user.email} bio={user.bio} />   
                     )
-                })
+                }) : (
+                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} mt={'200px'}>
+                        <Text>No results for "{searchInput}"</Text>
+                        <Text color={'grey'} fontSize={'13px'}>Try searching for something else or check the spelling of what you typed. </Text>
+                    </Box>
+                )
             }
-            </Box>
+        </Box>
+        </Thread>
+        <SideBarRight />
         </Box>
     )
 }

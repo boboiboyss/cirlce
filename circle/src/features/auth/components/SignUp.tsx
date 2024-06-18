@@ -1,6 +1,7 @@
 import { api } from "@/libs/api";
-import { Box, BoxProps, Button, Input, useToast } from "@chakra-ui/react";
+import { Box, BoxProps, Button, Flex, Input, Text, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 interface IPropsRegister extends BoxProps {}
@@ -49,28 +50,29 @@ export default function SignUpForm(props: IPropsRegister) {
 
   return (
     <Box width={'400px'} display={"flex"} flexDirection={"column"} gap={"10px"} {...props}>
+      <Text color={'white'} fontSize={'23px'}>Create account Circle</Text>
       <Input
         name="fullName"
-        placeholder="Full Name"
+        placeholder="Full Name *"
         color="white"
         onChange={handleChange}
       />
       <Input
         name="username"
-        placeholder="Username"
+        placeholder="Username *"
         color="white"
         onChange={handleChange}
       />
       <Input
         name="email"
-        placeholder="Email"
+        placeholder="Email *"
         color="white"
         onChange={handleChange}
       />
       <Input
         name="password"
         type="password"
-        placeholder="Password"
+        placeholder="Password *"
         color="white"
         onChange={handleChange}
       />
@@ -82,6 +84,12 @@ export default function SignUpForm(props: IPropsRegister) {
     >
         Register
     </Button>
+    <Flex>
+      <Text color={'white'} mr={'8px'}>Already have account?</Text> 
+      <Link to={'/auth/login'}>
+        <Text color={'#04A51E'}>Login</Text>
+      </Link>
+    </Flex>
     </Box>
   );
 }
