@@ -32,8 +32,12 @@ export function SideBarLeft () {
                     <Text>Follows</Text>
                 </Flex>
                 <Flex alignItems={'center'} mb={'20px'}>
-                    <CgProfile style={{fontSize: '25px', marginRight : '8px'}} />
-                    <Text>Profile</Text>
+                    <Link to={'/profile'} >
+                        <Flex>
+                            <CgProfile style={{fontSize: '25px', marginRight : '8px'}} />
+                            <Text>Profile</Text>
+                        </Flex>
+                    </Link>
                 </Flex>
                 <Box>
                     <Button style={{width:'100%', backgroundColor:'#04A51E',color:'white',borderRadius:'40px', padding : '5px'}}>Create Post</Button>

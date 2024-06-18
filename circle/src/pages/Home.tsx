@@ -5,6 +5,7 @@ import { SideBarLeft } from "../components/SideBarLeft"
 import { SideBarRight } from "../components/SideBarRight"
 import Thread from "../components/Thread"
 import { LuImagePlus } from "react-icons/lu"
+import Tittle from "@/components/Tittle"
 
 
 
@@ -16,6 +17,7 @@ export default function Home () {
         <Box color={'white'} display={'flex'} flexDirection={'row'} bg={'black'}>
             <SideBarLeft />
             <Thread>
+            <Tittle tittle={'Home'} />
             <Flex className="thread" alignItems={'center'} p={'20px'} borderBottom={'1px solid grey'}>
                 <Image width={'35px'} height={'35px'} borderRadius={'50%'} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOs9pBGGQuGe0JKeFg1XegK87RXxs1mIHyyg&s" alt="img-suggested" />
                 <Box width={'100%'}>

@@ -10,6 +10,7 @@ import { api } from './libs/api'
 import SearchPage from './pages/Search'
 import { SET_USER } from './redux/slices/AuthSlices'
 import { RootState } from './redux/store/store'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
   const [isLoading, setisLoading] = useState<boolean>(true)
@@ -63,6 +64,7 @@ function App() {
       <Route path='/auth/login' element = {<SignIn />} />
       <Route path='/auth/register' element = {<SignUp />} />
       <Route path='/search' element={<SearchPage />} />
+      <Route path='profile' element={<ProfilePage />} />
 
     </Routes>
     </>
