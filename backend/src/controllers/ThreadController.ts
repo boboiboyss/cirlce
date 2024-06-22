@@ -17,6 +17,19 @@ async function find(req : Request, res : Response) {
     }
 }
 
+async function threadMe(req : Request, res : Response) {
+    try {
+        const users = res.locals.user as UserDTO
+        const threads = await ThreadService.threadMe(users.id);
+        // if(!threads.length) return res.status(404).json({message : 'Threads not found!'});
+         res.status(200).json(threads)
+    } catch (error) {
+        res.status(500).json({
+            message : error.message
+        })
+    }
+}
+
 async function findOne (req : Request, res : Response) {
     try {
         const {id} = req.params;
@@ -109,4 +122,4 @@ async function findOne (req : Request, res : Response) {
             }    
 
 
-export default {find, findOne, create, update, remove}
+export default {find, findOne, create, update, remove, threadMe}

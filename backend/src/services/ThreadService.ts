@@ -24,6 +24,29 @@ import {v2 as cloudinary} from 'cloudinary'
 
     }
 
+    async function threadMe(userId : number){
+        try {
+              const thread = await prisma.thread.findMany({
+                include : {
+                    user : {
+                        select : {
+                            email : true,
+                            photoProfile : true,
+                            fullName : true,
+                        }
+                    }
+                },
+                where : {userId},
+              })
+
+              if(!thread.length) throw new String("Thread not found!");
+              return thread;
+            } catch(error) {
+              throw new String(error)
+            }
+    
+        }
+
     async function findOne(id:number){
         try {
             const thread =  await prisma.thread.findFirst({
@@ -94,4 +117,4 @@ import {v2 as cloudinary} from 'cloudinary'
     }
 
 
-export default {find, findOne, create, update, remove}
+export default {find, findOne, create, update, remove, threadMe}

@@ -105,6 +105,7 @@ router.get("/threads/:id", Authenticate, ThreadController.findOne)
 router.post("/threads", Authenticate, upload.single("image"), ThreadController.create)
 router.patch("/threads/:id", Authenticate, ThreadController.update)
 router.delete("/threads/:id", Authenticate, ThreadController.remove)
+router.get("/threads-me/", Authenticate, ThreadController.threadMe);
 
 router.post("/auth/login", AuthController.login)
 router.post("/auth/register", AuthController.register)
