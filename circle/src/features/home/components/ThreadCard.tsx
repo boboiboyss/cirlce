@@ -15,10 +15,10 @@ export default function ThreadCard ({thread} : ThreadCardProps) {
     return (
         <Flex borderBottom={'1px solid grey'} p={'20px'}>
         <Flex >
-            <Image src={thread.user?.photoProfile} alt="img-suggested" style={{width :'35px', height : '35px', borderRadius: '50%', marginRight : '10px'}}/>
+            <Image src={thread?.user?.photoProfile} alt="img-suggested" style={{width :'35px', height : '35px', borderRadius: '50%', marginRight : '10px'}}/>
             <Flex flexDirection={'column'}>
                 <Flex alignItems={'center'}>
-                    <Text fontSize={'13px'}>{thread.user?.fullName}</Text> 
+                    <Text fontSize={'13px'}>{thread?.user?.fullName}</Text> 
                     <Text color={'grey'} ml={'5px'} fontSize={'13px'}>{thread?.user?.email} • 3h</Text>
                 </Flex>
                 <Box>

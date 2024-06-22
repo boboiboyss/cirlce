@@ -1,81 +1,96 @@
 import { SideBarLeft } from "@/components/SideBarLeft";
 import Thread from "@/components/Thread";
 import Tittle from "@/components/Tittle";
-import { RootState } from "@/redux/store/store"
-import { Box, Button, Flex, Image, Text, Tab, TabList, TabPanels, TabPanel, Tabs, TabIndicator, Card, Input, Textarea, CardBody, Divider } from "@chakra-ui/react";
-import {useSelector } from "react-redux"
-import { Link } from "react-router-dom"; 
-import { FaArrowLeftLong } from "react-icons/fa6";
-import Suggested from "@/components/profiles/Suggested";
 import Developed from "@/components/profiles/Developed";
-import {useState } from "react";
+import Suggested from "@/components/profiles/Suggested";
+import ThreadCard from "@/features/home/components/ThreadCard";
+import { useProfile } from "@/features/profile/hooks/useProfile";
+import { RootState } from "@/redux/store/store";
+import { Box, Button, Card, CardBody, Divider, Flex, Image, Input, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text, Textarea } from "@chakra-ui/react";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { LuImagePlus } from "react-icons/lu"
-import { useForm, SubmitHandler} from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateUserSchema } from "@/features/home/validators/Threads";
-import { api } from "@/libs/api";
-import { CreateUserDTO } from "@/types/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { UserEntity } from "@/features/home/entities/User";
-import { AxiosError } from "axios";
-
-
+import { LuImagePlus } from "react-icons/lu";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function ProfilePage () {
     const currentUser = useSelector((state : RootState) => state.auth.user);
-    const {data:user, refetch} = useQuery<UserEntity>({queryKey : ['user'], queryFn : getUser})
-    const [isOpen, setIsOpen] = useState<boolean>(false)
 
-    const {register, handleSubmit} = useForm<CreateUserDTO>({
-        mode : 'onSubmit',
-        resolver : zodResolver(CreateUserSchema)
-    })
+    const {
+        isOpen,
+        user,
+        threads,
+        register,
+        handleSubmit,
+        onSubmit,
+        toggle } = useProfile()
+    // const [isOpen, setIsOpen] = useState<boolean>(false)
 
-    async function getUser(){
-        try {
-            const response = await api.get('users/me', {
-                headers : {
-                    Authorization : `Bearer ${localStorage.token}`
-                }
-            });
-           return response.data
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const {data:user, refetch} = useQuery<UserEntity>({queryKey : ['user'], queryFn : getUser})
+    // const {data:threads} = useQuery<ThreadEntity[]>({queryKey : ['threadsMe'], queryFn : getThreads})
 
-    const {mutateAsync} = useMutation<UserEntity, AxiosError, CreateUserDTO>({
-        mutationFn : (newUser) => {
-            const formData = new FormData();
-            formData.append('fullName', newUser.fullName);
-            formData.append('username', newUser.username);
-            formData.append('bio', newUser.bio);
-            formData.append('photoProfile', newUser.photoProfile[0])
+    // const {register, handleSubmit} = useForm<CreateUserDTO>({
+    //     mode : 'onSubmit',
+    //     resolver : zodResolver(CreateUserSchema)
+    // })
 
-            return api.patch('users', formData)
-        }
-    })
+    // async function getThreads() {
+    //     try {
+    //         const response = await api.get('/threads-me', {
+    //             headers : {
+    //                 Authorization : `Bearer ${localStorage.token}`
+    //             }
+    //         });
+    //         return response.data
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
-    const onSubmit: SubmitHandler<CreateUserDTO> = async (data) => {
-        try {
-            // const formData = new FormData();
-            // formData.append('fullName', data.fullName);
-            // formData.append('username', data.username);
-            // formData.append('bio', data.bio);
-            // formData.append('photoProfile', data.photoProfile[0]);
+    // async function getUser(){
+    //     try {
+    //         const response = await api.get('users/me', {
+    //             headers : {
+    //                 Authorization : `Bearer ${localStorage.token}`
+    //             }
+    //         });
+    //        return response.data
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
-            // await api.patch('users', formData);
-            await mutateAsync(data);
-            refetch();
-            setIsOpen(!isOpen);
+    // const {mutateAsync} = useMutation<UserEntity, AxiosError, CreateUserDTO>({
+    //     mutationFn : (newUser) => {
+    //         const formData = new FormData();
+    //         formData.append('fullName', newUser.fullName);
+    //         formData.append('username', newUser.username);
+    //         formData.append('bio', newUser.bio);
+    //         formData.append('photoProfile', newUser.photoProfile[0])
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //         return api.patch('users', formData)
+    //     }
+    // })
 
-    const toggle = () => setIsOpen(!isOpen)
+    // const onSubmit: SubmitHandler<CreateUserDTO> = async (data) => {
+    //     try {
+    //         // const formData = new FormData();
+    //         // formData.append('fullName', data.fullName);
+    //         // formData.append('username', data.username);
+    //         // formData.append('bio', data.bio);
+    //         // formData.append('photoProfile', data.photoProfile[0]);
+
+    //         // await api.patch('users', formData);
+    //         await mutateAsync(data);
+    //         refetch();
+    //         setIsOpen(!isOpen);
+
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // const toggle = () => setIsOpen(!isOpen)
     return (
         <Box color={'white'} display={'flex'} flexDirection={'row'} bg={'black'}>
             <SideBarLeft/>
@@ -160,10 +175,13 @@ export default function ProfilePage () {
                     </TabList>
                     <TabIndicator mt='-1.5px' height='2px' bg='green' borderRadius='1px' />
                     <TabPanels>
-                        <TabPanel>
-                            <Box>
-                                <Text>Coba</Text>
-                                <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq_I0JFO2DxoAV3J-sI7ajtx0qW0Q5neaY_A&s" />
+                        <TabPanel padding={0}>
+                            <Box height={'100vh'} overflow={'auto'}>
+                                {
+                                    threads? threads?.map((thread) => (
+                                        <ThreadCard key={thread.id} thread={thread} />
+                                    )) : <Box fontWeight={'800'}>Post not yet</Box>
+                                }
                             </Box>
                         </TabPanel>
                         <TabPanel>
