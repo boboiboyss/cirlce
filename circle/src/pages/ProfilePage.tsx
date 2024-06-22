@@ -5,17 +5,13 @@ import Developed from "@/components/profiles/Developed";
 import Suggested from "@/components/profiles/Suggested";
 import ThreadCard from "@/features/home/components/ThreadCard";
 import { useProfile } from "@/features/profile/hooks/useProfile";
-import { RootState } from "@/redux/store/store";
 import { Box, Button, Card, CardBody, Divider, Flex, Image, Input, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text, Textarea } from "@chakra-ui/react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { LuImagePlus } from "react-icons/lu";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function ProfilePage () {
-    const currentUser = useSelector((state : RootState) => state.auth.user);
-
     const {
         isOpen,
         user,
@@ -140,7 +136,7 @@ export default function ProfilePage () {
                                     <Box width={'100%'} mb={'30px'} height={'90px'} borderRadius={'8px'} backgroundImage={` url('https://cdn.magicdecor.in/com/2023/11/18154143/Teal-Orange-Yellow-Blue-Dark-Grainy-Color-Gradient-Wallpaper-for-Wall.jpg')`}>
                                     </Box>
                                     <Box>
-                                    <Image src={currentUser.photoProfile}  alt="img-profile" style={{width: '60px', height : '60px', borderRadius: '50%', border: '3px solid black', position: 'absolute', top : '110px', marginLeft : '15px'}}/>
+                                    <Image src={user?.photoProfile? user.photoProfile : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKH_bnKaBMqqfEpyIQJykfLn8ylX52dDjbHg&s' }  alt="img-profile" style={{width: '60px', height : '60px', borderRadius: '50%', border: '3px solid black', position: 'absolute', top : '110px', marginLeft : '15px'}}/>
                                       <label htmlFor="fileInput" style={{cursor: 'pointer', top : '122px', left: '47px', position : 'absolute', backgroundColor:'#0F1010', padding: '8px', borderRadius : '50%', opacity : '0.8'}}>
                                             <LuImagePlus style={{fontSize: '20px', color : 'white'}} />
                                       </label>
