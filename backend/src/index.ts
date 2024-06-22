@@ -12,6 +12,7 @@ import { initializeRedisClient, redisClient } from './libs/redis'
 import { RedisCheck } from './middlewares/Redis'
 import {rateLimit} from 'express-rate-limit'
 import {RedisStore} from 'rate-limit-redis'
+
 // import {google} from 'googleapis'
 
 dotenv.config();
@@ -86,7 +87,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 
     
-    //v2
+    // v2
     router2.get("/", (req : Request, res : Response) => {
         res.send("Hello welcome to circle v2")
     })
@@ -110,7 +111,9 @@ router.post("/auth/register", AuthController.register)
 router.post("/auth/check", Authenticate, AuthController.check)
 router.get("/auth/verify-email", AuthController.verify)
 
-router.get("/users", Authenticate, UserController.findOne)
+router.get("/users", Authenticate, UserController.findSearch)
+router.get("/users/me", Authenticate, UserController.findOne)
+router.patch("/users", upload.single("photoProfile"), Authenticate, UserController.update)
 
 
     app.listen(port, () => {

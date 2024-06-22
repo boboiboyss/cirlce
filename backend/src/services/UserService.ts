@@ -1,6 +1,8 @@
 import {PrismaClient } from "@prisma/client";
 import { UserDTO } from "../dto/CreateAuthDTO";
 import { UserSchema } from "../validators/user";
+import { v2 as cloudinary } from "cloudinary";
+import { string } from "joi";
 
 const prisma = new PrismaClient()
 
@@ -52,4 +54,47 @@ const prisma = new PrismaClient()
             throw new Error(error.message || 'Failed to retrieve users')
         }
     }
-export default {find}
+
+
+    async function findOne (email : string) {
+        try {
+             return await prisma.user.findUnique({
+                where : {
+                    email
+                }
+            })
+        } catch (error) {
+            throw new Error(error.message || 'Failed to retrieve users')
+        }
+    }
+
+    async function update(dto : UserDTO, email : string) {
+        try {
+            const validate = UserSchema.validate(dto)
+            if(validate.error) throw new Error(validate.error.message)
+            const users = await prisma.user.findUnique({
+                where : {
+                    email
+                }
+            })
+
+            cloudinary.config({
+                cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
+                api_key : process.env.CLOUDINARY_API_KEY,
+                api_secret : process.env.CLOUDINARY_API_SECRET
+            });
+
+            const upload = await cloudinary.uploader.upload(dto.photoProfile, {upload_preset : "imagecircle"})   
+            const updateUser = await prisma.user.update({
+                where : { email},
+                data : {
+                    ...dto, photoProfile : upload.secure_url
+                }
+            })
+
+            return updateUser;
+        } catch (error) { 
+            throw new Error(error.message)
+        }
+    }
+export default {find, update, findOne}
