@@ -2,7 +2,7 @@ import DetailPostPage from '@/pages/DetailPostPage'
 import Home from '@/pages/Home'
 import SignIn from '@/pages/auth/SignIn'
 import SignUp from '@/pages/auth/SignUp'
-import { useToast } from '@chakra-ui/react'
+import { Box, Text, useToast } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
@@ -11,6 +11,8 @@ import SearchPage from './pages/Search'
 import { SET_USER } from './redux/slices/AuthSlices'
 import { RootState } from './redux/store/store'
 import ProfilePage from './pages/ProfilePage'
+import { useQuery } from '@tanstack/react-query'
+// import RootLayout from './layout/RootLayout'
 
 function App() {
   const [isLoading, setisLoading] = useState<boolean>(true)
@@ -18,53 +20,98 @@ function App() {
   const currentUser = useSelector((state: RootState) => state.auth.user);
   const toast = useToast()
 
-  const PrivateRoute = () => {
-    if(!isLoading) {
-      if(currentUser.email) return <Outlet />;
-      return <Navigate to={"/auth/login"} />
-    }
-  }
+  const {data: authUser, isPending} = useQuery({
+    queryKey: ["authUser"],
+    queryFn: AuthCheck
+  })
+
+  // const PrivateRoute = () => {
+  //   if(!isLoading) {
+  //     if(currentUser.email) return <Outlet />;
+  //     return <Navigate to={"/auth/login"} />
+  //   }
+  // }
 
   async function AuthCheck() {
+    const token = localStorage.token;
+    if(token) {
     try {
-      const token = localStorage.token;
       const response = await api.post('/auth/check', {}, {
         headers: {
           Authorization : `Bearer ${token}`,
         }
       });
       dispatch(SET_USER(response.data));
-      setisLoading(false);
+      return response.data
+      // setisLoading(false);
     } catch (error) {
       localStorage.removeItem("token");
-      setisLoading(false);
+      // setisLoading(false);
       toast({
         title : 'User not authenticated',
         status : 'error',
         duration : 3000,
         isClosable : true
-      })
+      });
     }
   }
+}
 
-  useEffect(() => {
-    const token = localStorage.token;
-    if(token) AuthCheck();
+  // useEffect(() => {
+  //   const token = localStorage.token;
+  //   if(token) AuthCheck();
   
-  }, []);
+  // }, []);
+
+  if(isPending) 
+      return (
+        <Box>
+            <Text>Loading...</Text>
+        </Box>
+    )
 
   return (
     <>
     <Routes>
-      <Route element={<PrivateRoute />}>
-        <Route path='/' element={<Home />} />
-      </Route>
+      {/* <Route element={<PrivateRoute />}> */}
+        
+      <Route 
+        path='/auth/register' 
+        element = {
+          !authUser? <SignUp /> : <Navigate to={'/'} />
+        } 
+      />
+      
+      <Route 
+        path='/auth/login' 
+        element = {
+          !authUser? <SignIn /> : <Navigate to={'/'} />
+        } 
+      />
+
+        <Route 
+          path='/' 
+          element={
+            authUser ? <Home /> : <Navigate to={"/auth/login"} replace/>
+          } 
+        />
+
+        <Route 
+          path='/search' 
+          element={
+            authUser ? <SearchPage /> : <Navigate to={"/auth/login"} replace/>
+          } 
+        />
+
+        <Route 
+          path='profile' 
+          element={
+            authUser? <ProfilePage /> : <Navigate to={"/auth/login"} replace/>
+          } 
+        />
+      {/* </Route> */}
 
       <Route path='/post/:id' element = {<DetailPostPage />} />
-      <Route path='/auth/login' element = {<SignIn />} />
-      <Route path='/auth/register' element = {<SignUp />} />
-      <Route path='/search' element={<SearchPage />} />
-      <Route path='profile' element={<ProfilePage />} />
 
     </Routes>
     </>
