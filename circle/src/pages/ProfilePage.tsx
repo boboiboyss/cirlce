@@ -84,7 +84,7 @@ export default function ProfilePage () {
                 <Link to={'/'}>
                         <Flex alignItems={'center'}>
                             <FaArrowLeftLong style={{fontSize: '25px'}}/>
-                            <Tittle tittle={currentUser.fullName} />
+                            <Tittle tittle={user?.fullName} />
                         </Flex>
                 </Link>
                 <Box display={'flex'} flexDirection={'column'}>
