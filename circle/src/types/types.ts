@@ -26,3 +26,10 @@ export type CreateThreadDTO = {
     content : string,
     image : FileList
 }
+
+export type CreateUserDTO = {
+    fullName : string,
+    username : string,
+    bio : string,
+    photoProfile : FileList
+}

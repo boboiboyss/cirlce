@@ -1,6 +1,6 @@
 import ThreadCard from "@/features/home/components/ThreadCard"
 import { UseThreads } from "@/features/home/hooks/UseThreads"
-import { Box, Button, Flex, Image, Input } from "@chakra-ui/react"
+import { Box, Button, Flex, Image, Input} from "@chakra-ui/react"
 import { SideBarLeft } from "../components/SideBarLeft"
 import { SideBarRight } from "../components/SideBarRight"
 import Thread from "../components/Thread"
@@ -26,7 +26,7 @@ export default function Home () {
                     <Input placeholder={'What is happening?!'} border={'transparent'} {...register('content')} />
                     <Input type="file" display={'none'} id="fileInput" {...register('image')} />
                     <label htmlFor="fileInput">
-                    <LuImagePlus style={{marginRight : '10px', color : 'grey', fontSize : '30px'}}/>
+                    <LuImagePlus style={{marginRight : '10px', color : 'grey', fontSize : '30px', cursor : 'pointer'}}/>
                     </label>
                     <Button type={'submit'} mr={'10px'} backgroundColor={'green'} color={'white'} p={'1px 20px'} borderRadius={'15px'}>Post</Button>
                     </Flex>

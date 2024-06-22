@@ -32,8 +32,8 @@ export const UseThreads = () => {
     const {mutateAsync} = useMutation<ThreadEntity, AxiosError, CreateThreadDTO>({
         mutationFn: (newThread) => {
             const formData = new FormData()
-            formData.append('content', newThread.content)
-            formData.append('image', newThread.image[0])
+            formData.append('content', newThread.content);
+            formData.append('image', newThread.image[0]);
             return api.post('/threads', formData);
         }
     })

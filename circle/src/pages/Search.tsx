@@ -40,7 +40,7 @@ export default function SearchPage() {
             {
                 searchData.length > 0 ? searchData?.map((user) => {
                     return (
-                        <ListFollow image={user.photoProfile} nama={user.fullName} email={user.email} bio={user.bio} />   
+                        <ListFollow key={user.email} image={user.photoProfile} nama={user.fullName} email={user.email} bio={user.bio} />   
                     )
                 }) : (
                     <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} mt={'200px'}>
