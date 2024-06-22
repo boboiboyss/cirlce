@@ -19,7 +19,7 @@ export default function ListFollow (props : PropsListFollow) {
     return (
         <Flex justifyContent={'space-between'} mb={'8px'}>
                 <Flex alignItems={'center'}>
-                    <Image src={image} alt="img-suggested" width={'35px'} height={'35px'} borderRadius={'50%'}/>
+                    <Image src={image? image : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKH_bnKaBMqqfEpyIQJykfLn8ylX52dDjbHg&s'} alt="img-suggested" width={'35px'} height={'35px'} borderRadius={'50%'}/>
                     <Flex flexDirection={'column'} ml={'10px'}>
                         <Text fontSize={'12px'}>{nama}</Text>
                         <Text fontSize={'13px'} color={'grey'}>{email}</Text>
