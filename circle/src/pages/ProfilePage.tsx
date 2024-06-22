@@ -106,7 +106,7 @@ export default function ProfilePage () {
                     <Box width={'100%'} height={'90px'} borderRadius={'8px'} backgroundImage={` url('https://cdn.magicdecor.in/com/2023/11/18154143/Teal-Orange-Yellow-Blue-Dark-Grainy-Color-Gradient-Wallpaper-for-Wall.jpg')`}>
                     </Box>
                     <Box> 
-                        <Image src={user?.photoProfile}  alt="img-profile" style={{width: '60px', height : '60px', borderRadius: '50%', border: '3px solid black', position: 'absolute', top : '145px', marginLeft : '15px'}}/>
+                        <Image src={user?.photoProfile? user?.photoProfile : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKH_bnKaBMqqfEpyIQJykfLn8ylX52dDjbHg&s'}  alt="img-profile" style={{width: '60px', height : '60px', borderRadius: '50%', border: '3px solid black', position: 'absolute', top : '145px', marginLeft : '15px'}}/>
                         
                         <Button onClick={toggle} height={'30px'} border={'1px solid white'} p={'0px 10px'} fontSize={'12px'} borderRadius={'30px'} float={'right'} mt={'8px'} bg={'transparent'} color={'white'}> Edit Profile</Button>
                     </Box>
