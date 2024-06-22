@@ -3,21 +3,21 @@ import Home from '@/pages/Home'
 import SignIn from '@/pages/auth/SignIn'
 import SignUp from '@/pages/auth/SignUp'
 import { Box, Text, useToast } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+// import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { api } from './libs/api'
 import SearchPage from './pages/Search'
 import { SET_USER } from './redux/slices/AuthSlices'
-import { RootState } from './redux/store/store'
+// import { RootState } from './redux/store/store'
 import ProfilePage from './pages/ProfilePage'
 import { useQuery } from '@tanstack/react-query'
 // import RootLayout from './layout/RootLayout'
 
 function App() {
-  const [isLoading, setisLoading] = useState<boolean>(true)
+  // const [isLoading, setisLoading] = useState<boolean>(true)
   const dispatch = useDispatch()
-  const currentUser = useSelector((state: RootState) => state.auth.user);
+  // const currentUser = useSelector((state: RootState) => state.auth.user);
   const toast = useToast()
 
   const {data: authUser, isPending} = useQuery({
