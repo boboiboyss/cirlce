@@ -1,28 +1,61 @@
 import { SideBarLeft } from "@/components/SideBarLeft";
+import { SideBarRight } from "@/components/SideBarRight";
 import Thread, { scrollX } from "@/components/Thread";
 import Tittle from "@/components/Tittle";
-import Developed from "@/components/profiles/Developed";
-import Suggested from "@/components/profiles/Suggested";
 import ThreadCard from "@/features/home/components/ThreadCard";
-import { useProfile } from "@/features/profile/hooks/useProfile";
+import { ThreadEntity } from "@/features/home/entities/Threads";
+// import { useProfile } from "@/features/profile/hooks/useProfile";
+import { api } from "@/libs/api";
+import { SET_USER } from "@/redux/slices/AuthSlices";
 import { RootState } from "@/redux/store/store";
-import { Box, Button, Card, CardBody, Divider, Flex, Image, Input, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text, Textarea} from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { IoCloseCircleOutline } from "react-icons/io5";
-import { LuImagePlus } from "react-icons/lu";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function ProfilePage () {
-    const currentUser = useSelector((state : RootState) => state.auth.user);
-    const {
-        isOpen,
-        user,
-        threads,
-        register,
-        handleSubmit,
-        onSubmit,
-        toggle } = useProfile(currentUser.id)
+import { Link, Params, useParams } from "react-router-dom";
+
+export default function DetailUserPage () {
+    const {id} = useParams<Params<string>>();
+    const [threads, setThreads] = useState<ThreadEntity[]>([])
+    const currentUser = useSelector((state: RootState) => state.auth.user);
+    const idUser = id? +id : NaN
+    const dispatch = useDispatch()
+
+        async function getUser(){
+            try {
+                const response = await api.get(`users/${idUser}`, {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.token}`
+                    }
+                });
+                dispatch(SET_USER(response.data));
+               return response.data
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        async function getThreads() {
+            try {
+                const response = await api.get(`/threads-me/${idUser}`, {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.token}`
+                    }
+                });
+                setThreads(response.data)
+                return response.data
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+    useEffect(() => {
+        getUser();
+        getThreads();
+    })
+
+
     // const [isOpen, setIsOpen] = useState<boolean>(false)
 
     // const {data:user, refetch} = useQuery<UserEntity>({queryKey : ['user'], queryFn : getUser})
@@ -100,21 +133,21 @@ export default function ProfilePage () {
                 <Link to={'/'}>
                         <Flex alignItems={'center'}>
                             <FaArrowLeftLong style={{fontSize: '25px'}}/>
-                            <Tittle tittle={user?.fullName} />
+                            <Tittle tittle={currentUser.fullName} />
                         </Flex>
                 </Link>
                 <Box display={'flex'} flexDirection={'column'}>
                     <Box width={'100%'} height={'90px'} borderRadius={'8px'} backgroundImage={` url('https://cdn.magicdecor.in/com/2023/11/18154143/Teal-Orange-Yellow-Blue-Dark-Grainy-Color-Gradient-Wallpaper-for-Wall.jpg')`}>
                     </Box>
                     <Box> 
-                        <Image src={user?.photoProfile? user?.photoProfile : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKH_bnKaBMqqfEpyIQJykfLn8ylX52dDjbHg&s'}  alt="img-profile" style={{width: '60px', height : '60px', borderRadius: '50%', border: '3px solid black', position: 'absolute', top : '145px', marginLeft : '15px'}}/>
+                        <Image src={currentUser.photoProfile? currentUser.photoProfile : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKH_bnKaBMqqfEpyIQJykfLn8ylX52dDjbHg&s'}  alt="img-profile" style={{width: '60px', height : '60px', borderRadius: '50%', border: '3px solid black', position: 'absolute', top : '145px', marginLeft : '15px'}}/>
                         
-                        <Button onClick={toggle} height={'30px'} border={'1px solid white'} p={'0px 10px'} fontSize={'12px'} borderRadius={'30px'} float={'right'} mt={'8px'} bg={'transparent'} color={'white'}> Edit Profile</Button>
+                        <Button height={'30px'} border={'1px solid white'} p={'0px 10px'} fontSize={'12px'} borderRadius={'30px'} float={'right'} mt={'8px'} bg={'transparent'} color={'white'}> Follow</Button>
                     </Box>
                     <Box display={'flex'} flexDirection={'column'} gap={'3px'}>
-                        <Text fontSize={'17px'} fontWeight={'500'}>{user?.fullName}</Text>
-                        <Text fontSize={'13px'} color={'grey'}>{user?.email}</Text>
-                        <Text fontSize={'13px'}>{user?.bio}</Text>
+                        <Text fontSize={'17px'} fontWeight={'500'}>{currentUser.fullName}</Text>
+                        <Text fontSize={'13px'} color={'grey'}>{currentUser.email}</Text>
+                        <Text fontSize={'13px'}>{currentUser.bio}</Text>
                         <Flex gap={'5px'}>
                             <Flex alignItems={'center'}>
                                 <Text mr={'5px'}>103</Text>
@@ -130,44 +163,6 @@ export default function ProfilePage () {
                 </Box>
                 </Box>
 
-                {isOpen && 
-                        <Card position={'absolute'} width={'450px'} bg={'#0F1010'} right={'400px'} top={'80px'} color={'white'} zIndex={10}>
-                                <CardBody>
-                                     <Flex justifyContent={'space-between'} mb={'10px'}>
-                                        <Text fontSize={'14px'} fontWeight={'500'}>Edit Profile</Text>
-                                        <IoCloseCircleOutline onClick={toggle} style={{fontSize: '25px', color : 'grey'}}/>
-                                    </Flex>
-
-                                    <Box width={'100%'} mb={'30px'} height={'90px'} borderRadius={'8px'} backgroundImage={` url('https://cdn.magicdecor.in/com/2023/11/18154143/Teal-Orange-Yellow-Blue-Dark-Grainy-Color-Gradient-Wallpaper-for-Wall.jpg')`}>
-                                    </Box>
-                                    <Box>
-                                    <Image src={user?.photoProfile? user.photoProfile : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKH_bnKaBMqqfEpyIQJykfLn8ylX52dDjbHg&s' }  alt="img-profile" style={{width: '60px', height : '60px', borderRadius: '50%', border: '3px solid black', position: 'absolute', top : '110px', marginLeft : '15px'}}/>
-                                      <label htmlFor="fileInput" style={{cursor: 'pointer', top : '122px', left: '47px', position : 'absolute', backgroundColor:'#0F1010', padding: '8px', borderRadius : '50%', opacity : '0.8'}}>
-                                            <LuImagePlus style={{fontSize: '20px', color : 'white'}} />
-                                      </label>
-                                    </Box>
-
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <Box border={'1px solid grey'} borderRadius={'6px'} mb={'10px'} p={'5px'}>
-                                           <Text fontSize={'13px'} color={'grey'}>Name</Text>
-                                           <Input border={'transparent'} defaultValue={user?.fullName}  variant={'unstyled'} {...register('fullName')}/>
-                                        </Box>
-                                        <Box border={'1px solid grey'} borderRadius={'6px'} mb={'10px'} p={'5px'}>
-                                           <Text fontSize={'13px'} color={'grey'}>Username</Text>
-                                           <Input border={'transparent'} defaultValue={user?.username} variant={'unstyled'} {...register('username')} />
-                                        </Box>
-                                        <Box border={'1px solid grey'} borderRadius={'6px'} mb={'10px'} p={'5px'}>
-                                           <Text fontSize={'13px'} color={'grey'}>Bio</Text>
-                                           <Textarea border={'transparent'} variant={'unstyled'} resize={'none'} {...register('bio')} defaultValue={user?.bio} />
-                                        </Box>
-                                        <Input type="file" id="fileInput" display={'none'} {...register('photoProfile')} />
-                                        <Divider />
-                                        <Button type={'submit'} borderRadius={'40px'} float={'right'} mt={'10px'} bg={'green'} p={'5px 20px'} color={'white'}>Save</Button>
-                                    </form>
-                                </CardBody>
-                                
-                        </Card>
-                    }
                 <Box overflow={'scroll'} sx={scrollX}>
                 <Tabs isFitted variant='unstyled' overflow={'hidden'} position={'relative'}>
                     <TabList>
@@ -200,10 +195,7 @@ export default function ProfilePage () {
                 </Tabs>
                 </Box>
             </Thread>
-            <Box width={'400px'} height={'100vh'} display={'flex'} flexDirection={'column'} p={'30px'}>
-            <Suggested/>
-            <Developed/>
-            </Box>
+             <SideBarRight />
         </Box>
     )
 }

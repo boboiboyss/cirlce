@@ -1,8 +1,10 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import {Link } from 'react-router-dom'
+import { useFollow } from "@/hooks/useFollow";
 
 interface PropsListFollow {
+    id : number
     image : string,
     nama : string,
     email : string,
@@ -11,9 +13,11 @@ interface PropsListFollow {
 }
 
 export default function ListFollow (props : PropsListFollow) {
-    const {image, nama, email, bio} = props;
+    const {image, nama, email, bio, id} = props;
+    
+    const {followed} = useFollow(id)
 
-    const [isFollow, setIsFollow ] = useState<boolean>(false)
+    // const [isFollow, setIsFollow ] = useState<boolean>(false)
 
 
     return (
@@ -26,9 +30,9 @@ export default function ListFollow (props : PropsListFollow) {
                         <Text fontSize={'13px'} color={'grey'}>{bio? bio : null}</Text>
                     </Flex>
                 </Flex>
-                <Box onClick={() => setIsFollow(!isFollow)}>
-                <Link to={'#'}  style={{border : '1px solid white', padding : '3px 10px', fontSize : '12px', borderRadius : '30px', fontWeight:'normal', float :'right', marginTop : '8px'
-                    }}> {isFollow? 'following' : 'follow'}</Link>
+                <Box onClick={followed}>
+                <Link to={'#'} style={{border : '1px solid white', padding : '3px 10px', fontSize : '12px', borderRadius : '30px', fontWeight:'normal', float :'right', marginTop : '8px'
+                    }}>  following</Link>
                 </Box>    
         </Flex>
     )

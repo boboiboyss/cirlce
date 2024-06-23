@@ -1,15 +1,15 @@
 import { useProfile } from "@/features/profile/hooks/useProfile";
-// import { RootState } from "@/redux/store/store"
+import { RootState } from "@/redux/store/store"
 import { Box, Button, Flex, Image, Text} from "@chakra-ui/react";
 // import { useState } from "react";
-// import {useSelector } from "react-redux"
+import {useSelector } from "react-redux"
 
 export default function MyProfile () {
-    // const currentUser = useSelector((state : RootState) => state.auth.user);
+    const currentUser = useSelector((state : RootState) => state.auth.user);
     // const [isOpen, setIsOpen] = useState<boolean>(false)
     // const dispatch = useDispatch();
     // const toggle = () => setIsOpen(!isOpen)
-    const {user} = useProfile()
+    const {user} = useProfile(currentUser.id)
     return (
         <Box display={'flex'} flexDirection={'column'} p={'15px'} backgroundColor={'#0F1010'} borderRadius={'8px'} mb={'10px'}>  
             <Text mb={'10px'} fontWeight={'500'} fontSize={'15px'}>My Profile</Text>

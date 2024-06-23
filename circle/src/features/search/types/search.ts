@@ -1,6 +1,6 @@
 import { UserEntity } from "@/features/home/entities/User";
 
 
-export type UserSearch = Pick<UserEntity, 'fullName' | 'email' | 'photoProfile' | 'bio'>  & {
+export type UserSearch = Pick<UserEntity, 'id' | 'fullName' | 'email' | 'photoProfile' | 'bio'>  & {
       isFollowed : true
 };

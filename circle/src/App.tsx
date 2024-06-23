@@ -12,6 +12,7 @@ import { SET_USER } from './redux/slices/AuthSlices'
 // import { RootState } from './redux/store/store'
 import ProfilePage from './pages/ProfilePage'
 import { useQuery } from '@tanstack/react-query'
+import DetailUserPage from './pages/DetailUser'
 // import RootLayout from './layout/RootLayout'
 
 function App() {
@@ -110,7 +111,14 @@ function App() {
           } 
         />
       {/* </Route> */}
+       
+       <Route 
+         path='profile/:id'
+         element={
+          authUser? <DetailUserPage /> : <Navigate to={"/auth/login"} replace />
+         }
 
+      />
       <Route path='/post/:id' element = {<DetailPostPage />} />
 
     </Routes>

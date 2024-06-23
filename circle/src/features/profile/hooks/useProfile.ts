@@ -10,7 +10,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 
-export function useProfile() {
+export function useProfile(id : number) {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const {data:user, refetch} = useQuery<UserEntity>({queryKey : ['user'], queryFn : getUser})
     const {data:threads} = useQuery<ThreadEntity[]>({queryKey : ['threadsMe'], queryFn : getThreads})
@@ -22,7 +22,7 @@ export function useProfile() {
 
     async function getThreads() {
         try {
-            const response = await api.get('/threads-me', {
+            const response = await api.get(`/threads-me/${id}`, {
                 headers : {
                     Authorization : `Bearer ${localStorage.token}`
                 }
@@ -35,7 +35,7 @@ export function useProfile() {
 
     async function getUser(){
         try {
-            const response = await api.get('users/me', {
+            const response = await api.get(`users/${id}`, {
                 headers : {
                     Authorization : `Bearer ${localStorage.token}`
                 }
@@ -53,8 +53,6 @@ export function useProfile() {
             formData.append('username', newUser.username);
             formData.append('bio', newUser.bio);
             formData.append('photoProfile', newUser.photoProfile[0])
-            console.log(newUser)
-
             return api.patch('users', formData)
         }
     })
@@ -86,6 +84,7 @@ export function useProfile() {
         register,
         handleSubmit,
         onSubmit,
-        toggle
+        toggle,
+        refetch
     }
 }
