@@ -18,8 +18,8 @@ async function findSearch (req : Request, res : Response) {
 
     async function findOne (req : Request, res : Response) {
       try {
-          const users = res.locals.user as UserDTO
-          const getUser = await UserService.findOne(users.email)
+          const {id} = req.params;
+          const getUser = await UserService.findOne(+id)
           res.status(200).json(getUser)
   
         } catch(error) {

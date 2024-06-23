@@ -12,6 +12,8 @@ import { initializeRedisClient, redisClient } from './libs/redis'
 import { RedisCheck } from './middlewares/Redis'
 import {rateLimit} from 'express-rate-limit'
 import {RedisStore} from 'rate-limit-redis'
+import follow from './controllers/FollowController';
+import FollowController from './controllers/FollowController';
 
 // import {google} from 'googleapis'
 
@@ -25,8 +27,8 @@ const router = express.Router();
 const router2 = express.Router();
 
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 10000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	windowMs: 0.1 * 60 * 1000, // 15 minutes
+	limit: 10000000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
 	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
 	store: new RedisStore({
@@ -105,7 +107,7 @@ router.get("/threads/:id", Authenticate, ThreadController.findOne)
 router.post("/threads", Authenticate, upload.single("image"), ThreadController.create)
 router.patch("/threads/:id", Authenticate, ThreadController.update)
 router.delete("/threads/:id", Authenticate, ThreadController.remove)
-router.get("/threads-me/", Authenticate, ThreadController.threadMe);
+router.get("/threads-me/:id", Authenticate, ThreadController.threadMe);
 
 router.post("/auth/login", AuthController.login)
 router.post("/auth/register", AuthController.register)
@@ -113,9 +115,10 @@ router.post("/auth/check", Authenticate, AuthController.check)
 router.get("/auth/verify-email", AuthController.verify)
 
 router.get("/users", Authenticate, UserController.findSearch)
-router.get("/users/me", Authenticate, UserController.findOne)
+router.get("/users/:id", Authenticate, UserController.findOne)
 router.patch("/users", upload.single("photoProfile"), Authenticate, UserController.update)
 
+router.post("/following/:id", Authenticate, FollowController.follow)
 
     app.listen(port, () => {
         console.log(`Server berjalan di port ${port}`);

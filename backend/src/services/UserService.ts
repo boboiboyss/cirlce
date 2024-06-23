@@ -56,11 +56,15 @@ const prisma = new PrismaClient()
     }
 
 
-    async function findOne (email : string) {
+    async function findOne (id : number) {
         try {
-             return await prisma.user.findUnique({
+             return await prisma.user.findFirst({
                 where : {
-                    email
+                    id
+                },
+                include : {
+                    followeds : true,
+                    followers : true
                 }
             })
         } catch (error) {

@@ -19,8 +19,9 @@ async function find(req : Request, res : Response) {
 
 async function threadMe(req : Request, res : Response) {
     try {
-        const users = res.locals.user as UserDTO
-        const threads = await ThreadService.threadMe(users.id);
+        // const users = res.locals.user as UserDTO
+        const {id} = req.params;
+        const threads = await ThreadService.threadMe(+id);
         // if(!threads.length) return res.status(404).json({message : 'Threads not found!'});
          res.status(200).json(threads)
     } catch (error) {
