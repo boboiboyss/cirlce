@@ -103,7 +103,7 @@ router.get("/", (req : Request, res : Response) => {
 
 
     
-router.get("/threads", Authenticate, RedisCheck, ThreadController.find)
+router.get("/threads", Authenticate, ThreadController.find)
 router.get("/threads/:id", Authenticate, ThreadController.findOne)
 router.post("/threads", Authenticate, upload.single("image"), ThreadController.create)
 router.patch("/threads/:id", Authenticate, ThreadController.update)

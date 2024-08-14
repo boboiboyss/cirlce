@@ -6,9 +6,9 @@ import { redisClient } from "../libs/redis";
 async function find(req : Request, res : Response) {
     try {
         const threads = await ThreadService.find();
-        await redisClient.set("THREADS_DATA", JSON.stringify(threads), {
-            EX : 600,
-        })
+        // await redisClient.set("THREADS_DATA", JSON.stringify(threads), {
+        //     EX : 600,
+        // })
         return res.status(200).json(threads)
     } catch (error) {
         res.status(500).json({
