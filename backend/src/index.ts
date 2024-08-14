@@ -27,18 +27,18 @@ const port = process.env.PORT || 8000;
 const router = express.Router();
 const router2 = express.Router();
 
-const limiter = rateLimit({
-	windowMs: 0.1 * 60 * 1000, // 15 minutes
-	limit: 10000000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-	store: new RedisStore({
-		sendCommand: (...args: string[]) => redisClient.sendCommand(args),
-	}),
-    message : 'Too many requests, please try again later.'
-})
+// const limiter = rateLimit({
+// 	windowMs: 0.1 * 60 * 1000, // 15 minutes
+// 	limit: 10000000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+// 	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+// 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+// 	store: new RedisStore({
+// 		sendCommand: (...args: string[]) => redisClient.sendCommand(args),
+// 	}),
+//     message : 'Too many requests, please try again later.'
+// })
 
-app.use(limiter)
+// app.use(limiter)
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static('uploads'));
