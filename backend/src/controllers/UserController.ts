@@ -6,7 +6,6 @@ async function findSearch (req : Request, res : Response) {
     try {
         const search = req.query.search as string;
         const users = await UserService.find(search)
-      
         res.status(200).json(users)
 
       } catch(error) {
@@ -18,7 +17,8 @@ async function findSearch (req : Request, res : Response) {
 
     async function findOne (req : Request, res : Response) {
       try {
-          const {id} = req.params;
+          const {id} = req.params
+          // const user = res.locals.user as UserDTO
           const getUser = await UserService.findOne(+id)
           res.status(200).json(getUser)
   

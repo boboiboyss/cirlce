@@ -1,52 +1,52 @@
-import {PrismaClient} from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-async function follow (idUserLogged : number, idUserFollowed : number) {
-    try {
-        if(idUserFollowed === idUserLogged) throw new String( 'You cannot follow yourself!')
-        
-        console.log('tes');
-        const followed = await prisma.follow.findFirst({
-            where : {
-                followedId : idUserFollowed, 
-                followerId : idUserLogged
-            }
-        });
+async function follow(idUserLogged: number, idUserFollowed: number) {
+  try {
+    if (idUserFollowed === idUserLogged)
+      throw new String("You cannot follow yourself!");
 
-        if(followed) throw new String('You already follow this user!')
+    const followed = await prisma.follow.findFirst({
+      where: {
+        followedId: idUserFollowed,
+        followerId: idUserLogged,
+      },
+    });
 
-        return await prisma.follow.create({
-            data : {
-                followerId : idUserLogged,
-                followedId : idUserFollowed
-            }
-        });
-    } catch (error) {
-        throw new String (error)
-    }
-} 
+    if (followed) throw new String("You already follow this user!");
 
-
-async function unfollow (idUserLogged: number, idUserFollowed : number) {
-    try {
-        if(idUserFollowed === idUserLogged) throw new String( 'You cannot unfollow yourself!')
-            const unfollowed = await prisma.follow.findFirst({
-                where : {
-                    followedId : idUserFollowed, 
-                    followerId : idUserLogged
-                }
-            });
-    
-            if(unfollowed) throw new String('User not yet followed ')
-    
-            return await prisma.follow.delete({
-                where : {
-                    id : unfollowed.id
-                }
-            });
-    } catch (error) {
-        throw new Error (error)
-    }
+    return await prisma.follow.create({
+      data: {
+        followerId: idUserLogged,
+        followedId: idUserFollowed,
+      },
+    });
+  } catch (error) {
+    throw new String(error);
+  }
 }
-export default {follow, unfollow}
+
+async function unfollow(idUserLogged: number, idUserFollowed: number) {
+  try {
+    if (idUserFollowed === idUserLogged)
+      throw new String("You cannot unfollow yourself!");
+    const unfollowed = await prisma.follow.findFirst({
+      where: {
+        followedId: idUserFollowed,
+        followerId: idUserLogged,
+      },
+    });
+
+    if (unfollowed) throw new String("User not yet followed ");
+
+    return await prisma.follow.delete({
+      where: {
+        id: unfollowed.id,
+      },
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+export default { follow, unfollow };

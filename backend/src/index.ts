@@ -14,6 +14,7 @@ import {rateLimit} from 'express-rate-limit'
 import {RedisStore} from 'rate-limit-redis'
 import follow from './controllers/FollowController';
 import FollowController from './controllers/FollowController';
+import LikeController from './controllers/LikeController';
 
 // import {google} from 'googleapis'
 
@@ -119,6 +120,8 @@ router.get("/users/:id", Authenticate, UserController.findOne)
 router.patch("/users", upload.single("photoProfile"), Authenticate, UserController.update)
 
 router.post("/following/:id", Authenticate, FollowController.follow)
+
+router.post("/likes/:id", Authenticate, LikeController.likes)
 
     app.listen(port, () => {
         console.log(`Server berjalan di port ${port}`);
