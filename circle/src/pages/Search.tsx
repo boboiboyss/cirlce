@@ -7,6 +7,7 @@ import { api } from "@/libs/api";
 import {Box, Input, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDebounce } from 'use-debounce';
+import {Link} from 'react-router-dom'
 
 export default function SearchPage() {
     
@@ -31,6 +32,8 @@ export default function SearchPage() {
         getdata();
     }, [debounceSearch])
 
+    // console.log(searchData)
+
     return (
         <Box color={'white'} display={'flex'} flexDirection={'row'} bg={'black'} height={'100vh'}>
         <SideBarLeft />
@@ -40,7 +43,9 @@ export default function SearchPage() {
             {
                 searchData.length > 0 ? searchData?.map((user) => {
                     return (
-                        <ListFollow key={user.email} image={user.photoProfile} nama={user.fullName} email={user.email} bio={user.bio} id={user.id} />   
+                        <Link to={`/profile/${user.id}`}>
+                            <ListFollow key={user.email} image={user.photoProfile} nama={user.fullName} email={user.email} bio={user.bio} id={user.id} />   
+                        </Link>
                     )
                 }) : (
                     <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} mt={'200px'}>

@@ -27,11 +27,11 @@ export default function MyProfile () {
                     <Text fontSize={'13px'}>{user?.bio}</Text>
                     <Flex gap={'5px'}>
                         <Flex alignItems={'center'}>
-                            <Text mr={'5px'}>103</Text>
+                            <Text mr={'5px'}>{user?.totalFollowings}</Text>
                             <Text color={'grey'}>Following</Text>
                         </Flex>
                         <Flex alignItems={'center'}>
-                            <Text mr={'5px'}>160 </Text> 
+                            <Text mr={'5px'}>{user?.totalFollowers}</Text> 
                             <Text color={'grey'}>Followers</Text>
                         </Flex>
                     </Flex>

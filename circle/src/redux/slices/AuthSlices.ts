@@ -7,7 +7,9 @@ interface User {
     fullName : string,
     email : string,
     photoProfile : string,
-    bio : string
+    bio : string,
+    totalFollowings : number,
+    totalFollowers : number
 }
 
 export interface AuthState {
@@ -21,7 +23,9 @@ const initialState: AuthState = {
         fullName : "",
         email : "",
         photoProfile : "",
-        bio : ""
+        bio : "",
+        totalFollowers : 0,
+        totalFollowings : 0
     }
 }
 

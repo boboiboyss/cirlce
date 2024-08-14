@@ -8,7 +8,7 @@ interface PropsListFollow {
     image : string,
     nama : string,
     email : string,
-    bio? : string
+    bio? : string,
 
 }
 
@@ -32,7 +32,7 @@ export default function ListFollow (props : PropsListFollow) {
                 </Flex>
                 <Box onClick={followed}>
                 <Link to={'#'} style={{border : '1px solid white', padding : '3px 10px', fontSize : '12px', borderRadius : '30px', fontWeight:'normal', float :'right', marginTop : '8px'
-                    }}>  following</Link>
+                    }}>follow</Link>
                 </Box>    
         </Flex>
     )

@@ -5,6 +5,8 @@ export type UserEntity = {
     email: string;
     photoProfile: string;
     bio: string;
+    totalFollowers : number,
+    totalFollowings : number
     createdAt : Date;
     updatedAt : Date;
 }

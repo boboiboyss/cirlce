@@ -28,8 +28,12 @@ export function SideBarLeft () {
                     </Link>
                 </Flex>
                 <Flex alignItems={'center'} mb={'20px'}>
-                    <FaRegHeart style={{fontSize: '25px', marginRight : '8px'}}/>
-                    <Text>Follows</Text>
+                    <Link to={'/follows'} >
+                        <Flex>
+                            <FaRegHeart style={{fontSize: '25px', marginRight : '8px'}}/>
+                            <Text>Follows</Text>
+                        </Flex>
+                    </Link>
                 </Flex>
                 <Flex alignItems={'center'} mb={'20px'}>
                     <Link to={'/profile'} >

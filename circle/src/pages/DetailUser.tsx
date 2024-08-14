@@ -53,8 +53,9 @@ export default function DetailUserPage () {
     useEffect(() => {
         getUser();
         getThreads();
-    })
-
+    }, [currentUser, threads])
+    
+    console.log(currentUser)
 
     // const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -150,11 +151,11 @@ export default function DetailUserPage () {
                         <Text fontSize={'13px'}>{currentUser.bio}</Text>
                         <Flex gap={'5px'}>
                             <Flex alignItems={'center'}>
-                                <Text mr={'5px'}>103</Text>
+                                <Text mr={'5px'}>{currentUser.totalFollowings}</Text>
                                 <Text color={'grey'}>Following</Text>
                             </Flex>
                             <Flex alignItems={'center'}>
-                                <Text mr={'5px'}>160 </Text> 
+                                <Text mr={'5px'}>{currentUser.totalFollowers} </Text> 
                                 <Text color={'grey'}>Followers</Text>
                             </Flex>
                         </Flex>

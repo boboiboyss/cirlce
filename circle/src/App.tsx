@@ -13,6 +13,7 @@ import { SET_USER } from './redux/slices/AuthSlices'
 import ProfilePage from './pages/ProfilePage'
 import { useQuery } from '@tanstack/react-query'
 import DetailUserPage from './pages/DetailUser'
+import FollowsPage from './pages/FollowsPage'
 // import RootLayout from './layout/RootLayout'
 
 function App() {
@@ -101,6 +102,13 @@ function App() {
           path='/search' 
           element={
             authUser ? <SearchPage /> : <Navigate to={"/auth/login"} replace/>
+          } 
+        />
+
+<Route 
+          path='/follows' 
+          element={
+            authUser ? <FollowsPage /> : <Navigate to={"/auth/login"} replace/>
           } 
         />
 
