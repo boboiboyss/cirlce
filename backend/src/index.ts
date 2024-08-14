@@ -20,7 +20,7 @@ import LikeController from './controllers/LikeController';
 
 dotenv.config();
 
-initializeRedisClient().then( ()=> {
+// initializeRedisClient().then( ()=> {
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -126,6 +126,6 @@ router.post("/likes/:id", Authenticate, LikeController.likes)
     app.listen(port, () => {
         console.log(`Server berjalan di port ${port}`);
     })
-});
+// });
 
 
