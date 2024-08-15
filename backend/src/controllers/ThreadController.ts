@@ -66,7 +66,7 @@ async function findOne (req : Request, res : Response) {
                 image : req.file? req.file.path : ''
             }
 
-            await redisClient.del("THREADS_DATA")
+            // await redisClient.del("THREADS_DATA")
 
             const createThread = await ThreadService.create(body, user.id)
             res.status(201).json({
